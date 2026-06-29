@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Happy Birthday Indra</title>
+  <title>Happy Birthday Ayah</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <main class="container">
     <header>
-      <h1>Happy Birthday, Indra!</h1>
+      <h1>Happy Birthday, Ayahh!!!!</h1>
       <p class="subtitle">Selamat ulang tahun — semoga sehat, bahagia, dan selalu dikelilingi cinta keluarga.</p>
     </header>
 
@@ -23,15 +23,17 @@
     </section>
 
     <section class="envelope-section">
-      <div class="envelope" id="envelope" aria-hidden="false">
+      <!-- amplop juga fokusable dan bisa diklik/ditekan -->
+      <div class="envelope" id="envelope" role="button" tabindex="0" aria-expanded="false" aria-controls="letter" aria-label="Amplop, tekan Enter untuk membuka">
         <div class="flap" aria-hidden="true"></div>
-        <div class="letter" id="letter" role="article" aria-labelledby="letter-title">
+        <div class="letter" id="letter" role="article" aria-labelledby="letter-title" aria-hidden="true">
           <h2 id="letter-title">Untuk Ayah tercinta,</h2>
           <p id="letter-text">(Isi surat akan tampil di sini ketika amplop dibuka — kamu bisa edit teks ini di index.html)</p>
           <p class="signature">Dari keluargamu</p>
         </div>
       </div>
-      <button id="open-btn" class="btn" aria-controls="letter">Buka amplop</button>
+      <button id="open-btn" class="btn" aria-controls="letter" aria-expanded="false">Buka amplop</button>
+      <p class="subtitle" style="margin-top:8px;font-size:0.9rem;color:var(--muted)">Klik amplop atau tekan tombol untuk membuka surat. Kamu juga bisa tekan Enter/Space saat amplop terfokus.</p>
     </section>
 
     <section class="photos">
