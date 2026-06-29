@@ -21,7 +21,13 @@ body{
     inset:0;
     pointer-events:none;
 }
+.show{
+    display:flex;
+}
 
+.hide{
+    display:none;
+}
 .stars::before{
     content:"✨ ✨ ⭐ ✨ ⭐ ✨ ⭐ ✨";
     position:absolute;
