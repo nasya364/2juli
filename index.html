@@ -1,145 +1,178 @@
 <!DOCTYPE html>
-
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday Ayah ❤️</title>
 
-```
-<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-```
-
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
-```
-<!-- Background -->
-<div class="stars"></div>
-<div class="hearts"></div>
+    <!-- Background -->
+    <div class="stars"></div>
+    <div class="hearts"></div>
 
-<!-- Intro -->
-<section id="intro">
+    <!-- ================= INTRO ================= -->
 
-    <div class="envelope" id="envelope">
+    <section id="intro">
 
-        <!-- Tulisan di atas amplop -->
-        <div class="envelope-text">
-            <h1>Letter For Ayah</h1>
-            <p>Klik surat ini ya...</p>
-        </div>
+        <div class="wrapper">
 
-        <!-- Belakang amplop -->
-        <div class="envelope-back"></div>
+            <!-- Tulisan -->
+            <div class="intro-text">
+                <h1>Letter For Ayah</h1>
+                <p>Klik amplop ini ya ❤️</p>
+            </div>
 
-        <!-- Surat -->
-        <div class="letter">
-            💌
-        </div>
+            <!-- Amplop -->
+            <div class="envelope" id="envelope">
 
-        <!-- Depan amplop -->
-        <div class="envelope-front"></div>
+                <!-- Surat -->
+                <div class="letter">
 
-        <!-- Tutup amplop -->
-        <div class="flap"></div>
+                    <div class="letter-content">
 
-    </div>
+                        <div class="mail-icon">
+                            💌
+                        </div>
 
-</section>
+                        <h2>Untuk Ayah</h2>
 
-<!-- Popup -->
-<section class="popup hidden" id="popup">
+                        <p>
+                            Sebuah surat kecil yang penuh doa dan rasa sayang.
+                        </p>
 
-    <div class="window">
+                    </div>
 
-        <div class="title-bar">
+                </div>
 
-            <span>birthday.exe</span>
+                <!-- Belakang -->
+                <div class="back"></div>
 
-            <button id="closeBtn">✖</button>
+                <!-- Kantong depan -->
+                <div class="front"></div>
 
-        </div>
-
-        <div class="window-body">
-
-            <h2>🎂 Happy Birthday Ayah ❤️</h2>
-
-            <p>
-                Assalamu'alaikum Ayah.
-            </p>
-
-            <p>
-                Selamat ulang tahun ya, Ayah.
-                Terima kasih sudah menjadi sosok yang selalu bekerja keras,
-                selalu mengutamakan keluarga,
-                dan selalu berusaha memberikan yang terbaik.
-            </p>
-
-            <p>
-                Semoga Allah SWT senantiasa memberikan kesehatan,
-                umur yang penuh keberkahan,
-                rezeki yang halal dan melimpah,
-                serta kebahagiaan di dunia maupun akhirat.
-            </p>
-
-            <p>
-                Terima kasih atas semua kasih sayang,
-                pengorbanan,
-                dan doa yang tidak pernah putus.
-            </p>
-
-            <h3>🤍 Barakallahu fii umrik, Ayah 🤍</h3>
-
-            <div class="buttons">
-
-                <button id="loveBtn">
-                    ❤️ Peluk Virtual
-                </button>
-
-                <button id="runBtn">
-                    🙈 Malu
-                </button>
+                <!-- Tutup -->
+                <div class="flap"></div>
 
             </div>
 
         </div>
 
-    </div>
+    </section>
 
-</section>
+    <!-- ================= POPUP ================= -->
 
-<!-- Final -->
-<section id="final" class="hidden">
+    <section class="popup hidden" id="popup">
 
-    <div class="card">
+        <div class="window">
 
-        <div class="cake">🎂</div>
+            <div class="title-bar">
 
-        <h1>Happy Birthday Ayah!</h1>
+                <span>birthday.exe</span>
 
-        <p>
-            Semoga setiap langkah Ayah selalu dalam lindungan Allah SWT.
-        </p>
+                <button id="closeBtn">
+                    ✖
+                </button>
 
-        <p>
-            Kami semua sayang Ayah ❤️
-        </p>
+            </div>
 
-        <div class="emoji">
-            🎈 🎉 🎁 🎂 ❤️
+            <div class="window-body">
+
+                <h2>
+                    🎂 Happy Birthday Ayah ❤️
+                </h2>
+
+                <p>
+                    Assalamu'alaikum Ayah.
+                </p>
+
+                <p>
+                    Selamat ulang tahun ya, Ayah.
+                    Terima kasih sudah menjadi sosok yang selalu bekerja keras,
+                    selalu mengutamakan keluarga,
+                    dan selalu memberikan yang terbaik.
+                </p>
+
+                <p>
+                    Semoga Allah SWT selalu memberikan kesehatan,
+                    umur yang penuh keberkahan,
+                    rezeki yang halal,
+                    serta kebahagiaan dunia dan akhirat.
+                </p>
+
+                <p>
+                    Terima kasih atas seluruh kasih sayang,
+                    pengorbanan,
+                    dan doa yang tidak pernah berhenti.
+                </p>
+
+                <h3>
+                    🤍 Barakallahu fii umrik, Ayah 🤍
+                </h3>
+
+                <div class="buttons">
+
+                    <button id="loveBtn">
+                        ❤️ Peluk Virtual
+                    </button>
+
+                    <button id="runBtn">
+                        🙈 Malu
+                    </button>
+
+                </div>
+
+            </div>
+
         </div>
 
-    </div>
+    </section>
 
-</section>
+    <!-- ================= FINAL ================= -->
 
-<!-- Confetti -->
-<canvas id="confetti"></canvas>
+    <section id="final" class="hidden">
 
-<script src="script.js"></script>
-```
+        <div class="card">
+
+            <div class="cake">
+                🎂
+            </div>
+
+            <h1>
+                Happy Birthday Ayah!
+            </h1>
+
+            <p>
+                Semoga setiap langkah Ayah selalu dalam lindungan Allah SWT.
+            </p>
+
+            <p>
+                Kami semua sayang Ayah ❤️
+            </p>
+
+            <div class="emoji">
+
+                🎈 🎉 🎁 ❤️ 🎂
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Confetti -->
+
+    <canvas id="confetti"></canvas>
+
+    <script src="script.js"></script>
 
 </body>
+
 </html>
