@@ -158,7 +158,7 @@ body{
 }
 
 .open .letter{
-    transform:translateY(-140px);
+    transform:translateY(-120px);
 }
 
 /* ================= POPUP ================= */
