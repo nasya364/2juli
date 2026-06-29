@@ -3,14 +3,23 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Happy Birthday Ayah</title>
+  <title>Happy Birthday, Ayah</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <main class="container">
-    <header>
-      <h1>Happy Birthday, Ayahh!!!!</h1>
+  <!-- dekorasi background (CSS membuat gradasi + pattern) -->
+  <div class="page-decor left-balloon" aria-hidden="true"></div>
+  <div class="page-decor right-balloon" aria-hidden="true"></div>
+
+  <main class="container" id="main">
+    <!-- ribbon / header decoration -->
+    <div class="ribbon" aria-hidden="true">
+      <span>🎉</span>
+    </div>
+
+    <header class="site-header">
+      <h1 class="title">Happy Birthday, Ayah!</h1>
       <p class="subtitle">Selamat ulang tahun — semoga sehat, bahagia, dan selalu dikelilingi cinta keluarga.</p>
     </header>
 
@@ -23,36 +32,42 @@
     </section>
 
     <section class="envelope-section">
-      <!-- amplop juga fokusable dan bisa diklik/ditekan -->
+      <!-- amplop fokusable -->
       <div class="envelope" id="envelope" role="button" tabindex="0" aria-expanded="false" aria-controls="letter" aria-label="Amplop, tekan Enter untuk membuka">
-        <div class="flap" aria-hidden="true"></div>
-        <div class="letter" id="letter" role="article" aria-labelledby="letter-title" aria-hidden="true">
-          <h2 id="letter-title">Untuk Ayah tercinta,</h2>
-          <p id="letter-text">(Isi surat akan tampil di sini ketika amplop dibuka — kamu bisa edit teks ini di index.html)</p>
-          <p class="signature">Dari keluargamu</p>
+        <div class="outer">
+          <div class="flap" id="flap" aria-hidden="true">
+            <div class="seal" aria-hidden="true">♡</div>
+          </div>
+          <div class="letter" id="letter" role="region" aria-labelledby="letter-title" aria-hidden="true">
+            <h2 id="letter-title">Untuk Ayah tercinta,</h2>
+            <div id="letter-text" class="letter-body">
+              <!-- teks akan diisi oleh JavaScript saat amplop dibuka -->
+            </div>
+            <p class="signature">Dengan cinta, keluarga</p>
+          </div>
         </div>
       </div>
-      <button id="open-btn" class="btn" aria-controls="letter" aria-expanded="false">Buka amplop</button>
-      <p class="subtitle" style="margin-top:8px;font-size:0.9rem;color:var(--muted)">Klik amplop atau tekan tombol untuk membuka surat. Kamu juga bisa tekan Enter/Space saat amplop terfokus.</p>
+
+      <div class="envelope-actions">
+        <button id="open-btn" class="btn" aria-controls="letter" aria-expanded="false">Buka amplop</button>
+        <button id="play-music" class="btn ghost" aria-pressed="false">Putar Musik</button>
+      </div>
+      <p class="hint">Klik amplop atau tekan Enter/Space saat amplop terfokus untuk membuka surat.</p>
     </section>
 
     <section class="photos">
       <h3>Foto keluarga</h3>
       <div class="photo-grid">
-        <!-- Masukkan foto di folder assets/ lalu update src di bawah -->
+        <!-- placeholder, ganti dengan gambar Anda di folder assets/ -->
         <img src="assets/family-1.jpg" alt="Foto keluarga 1" class="photo placeholder">
         <img src="assets/dad.jpg" alt="Foto Indra" class="photo placeholder">
       </div>
     </section>
 
     <audio id="bg-music" loop>
-      <!-- Masukkan file musik di assets/ dan ubah src berikut -->
       <source id="bg-src" src="assets/music.mp3" type="audio/mpeg">
       Browser Anda tidak mendukung elemen audio.
     </audio>
-    <div class="music-controls">
-      <button id="play-music" class="btn ghost" aria-pressed="false">Putar Musik</button>
-    </div>
 
   </main>
 
