@@ -1,11 +1,10 @@
-// Main interactions: countdown, envelope open, confetti, play music
+// Main interactions: countdown, envelope open/close (click + keyboard), confetti, play music
 (() => {
   // Tanggal lahir Ayah: 2 Juli 1978
   const birthDate = new Date(1978, 6, 2); // month 6 = Juli (0-indexed)
   const birthdayMonth = 6; // July (0-indexed)
   const birthdayDay = 2;
 
-  // Countdown targets next occurrence of July 2
   function nextBirthdayDate() {
     const now = new Date();
     let year = now.getFullYear();
@@ -23,7 +22,6 @@
     return age;
   }
 
-  // Countdown update
   const daysEl = document.getElementById('days');
   const hoursEl = document.getElementById('hours');
   const minsEl = document.getElementById('minutes');
@@ -51,9 +49,10 @@
   updateCountdown();
   setInterval(updateCountdown, 1000);
 
-  // Envelope open and interactions
+  // Elements for envelope + music
   const envelope = document.getElementById('envelope');
   const openBtn = document.getElementById('open-btn');
+  const letter = document.getElementById('letter');
   const letterText = document.getElementById('letter-text');
   const playMusicBtn = document.getElementById('play-music');
   const bgMusic = document.getElementById('bg-music');
@@ -126,41 +125,70 @@
     if (ctx) ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
   }
 
-  // Play/pause music with button; note browser autoplay restrictions require user gesture
-  function toggleMusic() {
+  function toggleMusic(play) {
     if (!bgMusic) return;
-    if (bgMusic.paused) {
-      bgMusic.play().catch(()=>{ /* ignore play errors */ });
-      playMusicBtn.textContent = 'Pause Musik';
-      playMusicBtn.setAttribute('aria-pressed', 'true');
+    if (typeof play === 'boolean') {
+      if (play) bgMusic.play().catch(()=>{});
+      else bgMusic.pause();
     } else {
-      bgMusic.pause();
-      playMusicBtn.textContent = 'Putar Musik';
-      playMusicBtn.setAttribute('aria-pressed', 'false');
+      if (bgMusic.paused) bgMusic.play().catch(()=>{});
+      else bgMusic.pause();
+    }
+    const isPlaying = !bgMusic.paused;
+    playMusicBtn.textContent = isPlaying ? 'Pause Musik' : 'Putar Musik';
+    playMusicBtn.setAttribute('aria-pressed', String(isPlaying));
+  }
+
+  playMusicBtn.addEventListener('click', () => toggleMusic());
+
+  // Envelope open/close logic (click + keyboard)
+  let opened = false;
+
+  function setOpenState(state) {
+    opened = !!state;
+    if (opened) {
+      envelope.classList.add('open');
+      envelope.setAttribute('aria-expanded', 'true');
+      letter.setAttribute('aria-hidden', 'false');
+      openBtn.textContent = 'Tutup Amplop';
+      openBtn.setAttribute('aria-expanded', 'true');
+      // Fill default letter content (only set if placeholder)
+      if (!letterText.dataset.filled) {
+        letterText.innerHTML = `Ayah Indra yang tercinta,<br><br>
+          Selamat ulang tahun! Semoga tahun ini membawa lebih banyak tawa, kesehatan, dan kebahagiaan. Terima kasih untuk segala cinta dan pengorbanan. Kami sangat menyayangimu.<br><br>
+          Dengan cinta, keluargamu.`;
+        letterText.dataset.filled = 'true';
+      }
+      // confetti + try play music (user gesture triggered by click/keyboard)
+      startConfetti(6000);
+      toggleMusic(true);
+    } else {
+      envelope.classList.remove('open');
+      envelope.setAttribute('aria-expanded', 'false');
+      letter.setAttribute('aria-hidden', 'true');
+      openBtn.textContent = 'Buka amplop';
+      openBtn.setAttribute('aria-expanded', 'false');
+      // stop confetti and optionally pause music
+      stopConfetti();
+      // do not auto-pause music on close to respect user's intent--but you could:
+      // toggleMusic(false);
     }
   }
 
-  playMusicBtn.addEventListener('click', () => {
-    toggleMusic();
+  // Click envelope or button
+  envelope.addEventListener('click', (e) => {
+    setOpenState(!opened);
   });
 
-  // Envelope open handler
-  let opened = false;
-  openBtn.addEventListener('click', () => {
-    if (opened) return;
-    opened = true;
-    envelope.classList.add('open');
-    // Default letter content (editable in HTML)
-    letterText.innerHTML = `Ayah Indra yang tercinta,<br><br>
-      Selamat ulang tahun! Semoga tahun ini membawa lebih banyak tawa, kesehatan, dan kebahagiaan. Terima kasih untuk segala cinta dan pengorbanan. Kami sangat menyayangimu.<br><br>
-      Dengan cinta, keluargamu.`;
-    // Play confetti and play music (user already clicked open = user gesture)
-    startConfetti(6000);
-    // Try to play music if available
-    if (bgMusic) {
-      bgMusic.play().catch(()=>{/* may fail if no user gesture */});
-      playMusicBtn.textContent = 'Pause Musik';
-      playMusicBtn.setAttribute('aria-pressed', 'true');
+  openBtn.addEventListener('click', (e) => {
+    setOpenState(!opened);
+  });
+
+  // Keyboard support: Enter / Space to open when envelope focused
+  envelope.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+      e.preventDefault();
+      setOpenState(!opened);
     }
   });
 
