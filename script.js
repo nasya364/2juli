@@ -10,6 +10,7 @@ const finalPage = document.getElementById("final");
 const loveBtn = document.getElementById("loveBtn");
 const runBtn = document.getElementById("runBtn");
 const closeBtn = document.getElementById("closeBtn");
+console.log("JS jalan");
 
 // ============================
 // BUKA SURAT
