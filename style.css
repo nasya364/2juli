@@ -16,39 +16,28 @@ body{
 
 .envelope-text{
     position:absolute;
-    top:58%;
-    left:50%;
-    transform:translate(-50%,-50%);
+    width:100%;
+    top:90px;
     text-align:center;
-    z-index:4;
-    pointer-events:none;
+    z-index:3;
 }
 
 .envelope-text h1{
     font-size:20px;
-    margin:0;
+    font-weight:700;
+    color:#3d2c2c;
 }
 
 .envelope-text p{
+    color:#6d5c5c;
     margin-top:8px;
-    color:#666;
 }
 
-/* KERTAS PUTIH */
-
 .letter{
-    position:absolute;
-    left:10%;
-    top:35%;          /* lebih masuk ke dalam amplop */
-    width:80%;
-    height:72%;
-    background:white;
-    border-radius:12px;
-    padding:20px;
-    text-align:center;
-    transition:1s ease;
-    z-index:1;        /* di belakang flap */
-    box-shadow:0 10px 25px rgba(0,0,0,.15);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:35px;
 }
 .heart{
     font-size:30px;
