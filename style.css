@@ -80,7 +80,7 @@ body{
     clip-path:polygon(0 0,100% 0,50% 100%);
     transform-origin:top;
     transition:1s;
-    z-index:5;
+    z-index:1;
 }
 
 .letter{
@@ -121,7 +121,7 @@ body{
     position:fixed;
     inset:0;
     background:rgba(0,0,0,.35);
-    display:none;   /* UBAH INI */
+    display:flex;
     justify-content:center;
     align-items:center;
 }
