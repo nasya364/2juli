@@ -1,8 +1,10 @@
 // ============================
 // ELEMENT
 // ============================
-console.log(envelope);
 const envelope = document.getElementById("envelope");
+
+console.log(envelope);
+
 const popup = document.getElementById("popup");
 const intro = document.getElementById("intro");
 const finalPage = document.getElementById("final");
