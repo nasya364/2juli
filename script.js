@@ -1,7 +1,11 @@
 // ============================
 // ELEMENT
 // ============================
+console.log("JS jalan");
 
+const envelope = document.getElementById("envelope");
+
+console.log(envelope);
 const envelope = document.getElementById("envelope");
 const popup = document.getElementById("popup");
 const intro = document.getElementById("intro");
