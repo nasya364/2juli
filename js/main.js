@@ -1,8 +1,16 @@
 // js/main.js
+console.log('main.js loaded');
 (() => {
   // Tanggal ultah: 2 Juli 1978
   const birthDate = new Date(1978, 6, 2);
   const bMonth = 6, bDay = 2;
+
+  // debug: cek DOM dan element envelope
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM ready');
+    const env = document.getElementById('envelope');
+    console.log('envelope element', !!env);
+  });
 
   function nextBirthdayDate() {
     const now = new Date();
@@ -126,60 +134,50 @@
     Peluk hangat dan doa dari keluarga.
   `;
 
+  // hide flap after open animation completes, and show before close
+  const flapEl = flap; // alias
+  if (flapEl) {
+    flapEl.addEventListener('transitionend', (e) => {
+      // only hide after the flip transform finished and envelope is open
+      if (e.propertyName && e.propertyName.includes('transform') && envelope && envelope.classList.contains('open')) {
+        flapEl.style.display = 'none';
+      }
+    });
+  }
+  function showFlapBeforeClose(){
+    if (!flapEl) return;
+    flapEl.style.display = '';
+    // force reflow so the closing transition can run
+    void flapEl.offsetWidth;
+  }
+
   let opened = false;
-+  // hide flap after open animation completes, and show before close
-+  const flapEl = flap; // alias
-+  if (flapEl) {
-+    flapEl.addEventListener('transitionend', (e) => {
-+      if (e.propertyName.includes('transform') && envelope && envelope.classList.contains('open')) {
-+        flapEl.style.display = 'none';
-+      }
-+    });
-+  }
-+  function showFlapBeforeClose(){
-+    if (!flapEl) return;
-+    flapEl.style.display = '';
-+    // force reflow so the closing transition runs
-+    void flapEl.offsetWidth;
-+  }
   function setOpen(state){
--    opened = Boolean(state);
--    if (envelope) envelope.classList.toggle('open', opened);
--    if (envelope) envelope.setAttribute('aria-expanded', String(opened));
--    if (letter) letter.setAttribute('aria-hidden', String(!opened));
--    if (openBtn) { openBtn.setAttribute('aria-expanded', String(opened)); openBtn.textContent = opened ? 'Tutup Amplop' : 'Buka amplop'; }
--    if (opened){
--      if (letterText && (!letterText.innerHTML || letterText.innerHTML.trim()==='')) letterText.innerHTML = defaultMessage;
--      startConfetti(5000);
--      setMusic(true);
--    } else {
--      stopConfetti();
--    }
-+    const opening = Boolean(state);
-+    if (!opening) showFlapBeforeClose();
-+    opened = opening;
-+    if (envelope) envelope.classList.toggle('open', opened);
-+    if (envelope) envelope.setAttribute('aria-expanded', String(opened));
-+    if (letter) letter.setAttribute('aria-hidden', String(!opened));
-+    if (openBtn) { openBtn.setAttribute('aria-expanded', String(opened)); openBtn.textContent = opened ? 'Tutup Amplop' : 'Buka amplop'; }
-+    if (opened){
-+      if (letterText && (!letterText.innerHTML || letterText.innerHTML.trim()==='')) letterText.innerHTML = defaultMessage;
-+      startConfetti(5000);
-+      setMusic(true);
-+    } else {
-+      stopConfetti();
-+    }
-   }
- 
-   if (envelope) {
-     envelope.addEventListener('click', ()=> setOpen(!opened));
-     envelope.addEventListener('keydown', (e)=> {
-       if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
-         e.preventDefault();
-         setOpen(!opened);
-       }
-     });
-   }
-   if (openBtn) openBtn.addEventListener('click', ()=> setOpen(!opened));
- 
- })();
+    const opening = Boolean(state);
+    if (!opening) showFlapBeforeClose(); // ensure flap visible before running close transition
+    opened = opening;
+    if (envelope) envelope.classList.toggle('open', opened);
+    if (envelope) envelope.setAttribute('aria-expanded', String(opened));
+    if (letter) letter.setAttribute('aria-hidden', String(!opened));
+    if (openBtn) { openBtn.setAttribute('aria-expanded', String(opened)); openBtn.textContent = opened ? 'Tutup Amplop' : 'Buka amplop'; }
+    if (opened){
+      if (letterText && (!letterText.innerHTML || letterText.innerHTML.trim()==='')) letterText.innerHTML = defaultMessage;
+      startConfetti(5000);
+      setMusic(true);
+    } else {
+      stopConfetti();
+    }
+  }
+
+  if (envelope) {
+    envelope.addEventListener('click', ()=> setOpen(!opened));
+    envelope.addEventListener('keydown', (e)=> {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();
+        setOpen(!opened);
+      }
+    });
+  }
+  if (openBtn) openBtn.addEventListener('click', ()=> setOpen(!opened));
+
+})();
