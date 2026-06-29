@@ -95,7 +95,20 @@ body{
     overflow:hidden;
     box-shadow:0 20px 40px rgba(0,0,0,.2);
 }
+.envelope-front{
+    position:absolute;
+    left:0;
+    bottom:0;
 
+    width:100%;
+    height:120px;
+
+    background:#e58e8e;
+
+    border-radius:0 0 12px 12px;
+
+    z-index:3;
+}
 /* Tutup amplop */
 .flap{
     position:absolute;
@@ -107,7 +120,7 @@ body{
     clip-path:polygon(0 0,100% 0,50% 100%);
     transform-origin:top;
     transition:1s;
-    z-index:5;
+    z-index:4;
 }
 
 /* Surat */
@@ -118,7 +131,7 @@ body{
     height:170px;
 
     left:50%;
-    bottom:-140px;
+    bottom:-90px;
 
     transform:translateX(-50%);
 
@@ -131,12 +144,12 @@ body{
 
     font-size:50px;
 
+    transition:1s;
+
     box-shadow:0 10px 20px rgba(0,0,0,.15);
 
-    transition:1s;
     z-index:2;
 }
-
 /* Tulisan */
 .envelope-text{
     position:absolute;
@@ -163,7 +176,7 @@ body{
 }
 
 .open .letter{
-    transform:translate(-50%,-170px);
+    transform:translate(-50%,-230px);
 }
 /* ================= POPUP ================= */
 
