@@ -1,8 +1,6 @@
 // ============================
 // ELEMENT
 // ============================
-popup.classList.add("show");
-popup.classList.add("hide");
 
 const envelope = document.getElementById("envelope");
 const popup = document.getElementById("popup");
