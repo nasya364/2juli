@@ -199,9 +199,6 @@ function animateConfetti() {
     requestAnimationFrame(animateConfetti);
 
 }
-envelope.addEventListener("click", () => {
-    console.log("SURAT DIKLIK");
-});
 
 // ============================
 // RESIZE
