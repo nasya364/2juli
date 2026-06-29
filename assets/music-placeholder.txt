@@ -1,0 +1,7 @@
+Silakan ganti file ini dengan file musik bernama "music.mp3".
+
+Langkah cepat:
+- Letakkan file mp3 Anda di folder assets/ dengan nama "music.mp3".
+- Format yang direkomendasikan: MP3 (128-256 kbps). Jika tidak ada, situs tetap bekerja tanpa musik.
+
+Sumber musik gratis: https://pixabay.com/music/ atau https://freemusicarchive.org/
