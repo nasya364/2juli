@@ -1,243 +1,61 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Happy Birthday Ayah ❤️</title>
-
-<link rel="stylesheet" href="style.css">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday Indra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
-
-
 <body>
-
-
-<div class="stars"></div>
-
-
-<!-- ================= AMPLOP ================= -->
-
-<section id="intro">
-
-
-<div class="envelope-wrapper">
-
-
-<div class="title">
-
-<h1>Letter For Ayah ❤️</h1>
-
-<p>Klik amplopnya ya...</p>
-
-</div>
-
-
-
-<div class="envelope" id="envelope">
-
-
-<!-- belakang amplop -->
-
-<div class="back"></div>
-
-
-
-<!-- surat -->
-
-<div class="paper">
-
-<div class="paper-content">
-
-💌
-
-<h2>Untuk Ayah</h2>
-
-<p>
-Surat kecil penuh doa dan rasa sayang.
-</p>
-
-</div>
-
-</div>
-
-
-
-<!-- bagian depan amplop -->
-
-<div class="front"></div>
-
-
-
-<!-- tutup -->
-
-<div class="top-flap"></div>
-
-
-
-</div>
-
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-<!-- ================= POPUP ================= -->
-
-
-<section class="popup hidden" id="popup">
-
-
-<div class="window">
-
-
-<div class="bar">
-
-<span>
-birthday.exe
-</span>
-
-
-<button id="closeBtn">
-✖
-</button>
-
-
-</div>
-
-
-
-<div class="content">
-
-
-<h2>
-🎂 Happy Birthday Ayah ❤️
-</h2>
-
-
-<p>
-Assalamu'alaikum Ayah.
-</p>
-
-
-<p>
-Selamat ulang tahun ya, Ayah.
-Terima kasih sudah menjadi sosok yang selalu bekerja keras,
-selalu menjaga keluarga,
-dan selalu memberikan yang terbaik.
-</p>
-
-
-<p>
-Semoga Allah SWT memberikan kesehatan,
-umur penuh keberkahan,
-rezeki yang halal,
-serta kebahagiaan dunia dan akhirat.
-</p>
-
-
-<p>
-Terima kasih atas semua doa,
-kasih sayang,
-dan pengorbanan Ayah.
-</p>
-
-
-
-<h3>
-🤍 Barakallahu fii umrik, Ayah 🤍
-</h3>
-
-
-
-<div class="buttons">
-
-
-<button id="loveBtn">
-❤️ Peluk Virtual
-</button>
-
-
-<button id="runBtn">
-🙈 Malu
-</button>
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-<!-- ================= FINAL ================= -->
-
-
-<section id="final" class="hidden">
-
-
-<div class="card">
-
-
-<div class="cake">
-🎂
-</div>
-
-
-<h1>
-Happy Birthday Ayah!
-</h1>
-
-
-<p>
-Semoga Ayah selalu dalam lindungan Allah SWT.
-</p>
-
-
-<p>
-Kami semua sayang Ayah ❤️
-</p>
-
-
-<div class="emoji">
-🎈 🎁 🎉 ❤️
-</div>
-
-
-</div>
-
-
-</section>
-
-
-
-
-<canvas id="confetti"></canvas>
-
-
-
-<script src="script.js"></script>
-
-
+  <main class="container">
+    <header>
+      <h1>Happy Birthday, Indra!</h1>
+      <p class="subtitle">Selamat ulang tahun — semoga sehat, bahagia, dan selalu dikelilingi cinta keluarga.</p>
+    </header>
+
+    <section class="countdown" aria-live="polite">
+      <div class="count-item"><span id="days">--</span><small>Hari</small></div>
+      <div class="count-item"><span id="hours">--</span><small>Jam</small></div>
+      <div class="count-item"><span id="minutes">--</span><small>Menit</small></div>
+      <div class="count-item"><span id="seconds">--</span><small>Detik</small></div>
+      <p class="birthdate" id="age-text">Ulang tahun: 2 Juli 1978</p>
+    </section>
+
+    <section class="envelope-section">
+      <div class="envelope" id="envelope" aria-hidden="false">
+        <div class="flap" aria-hidden="true"></div>
+        <div class="letter" id="letter" role="article" aria-labelledby="letter-title">
+          <h2 id="letter-title">Untuk Ayah tercinta,</h2>
+          <p id="letter-text">(Isi surat akan tampil di sini ketika amplop dibuka — kamu bisa edit teks ini di index.html)</p>
+          <p class="signature">Dari keluargamu</p>
+        </div>
+      </div>
+      <button id="open-btn" class="btn" aria-controls="letter">Buka amplop</button>
+    </section>
+
+    <section class="photos">
+      <h3>Foto keluarga</h3>
+      <div class="photo-grid">
+        <!-- Masukkan foto di folder assets/ lalu update src di bawah -->
+        <img src="assets/family-1.jpg" alt="Foto keluarga 1" class="photo placeholder">
+        <img src="assets/dad.jpg" alt="Foto Indra" class="photo placeholder">
+      </div>
+    </section>
+
+    <audio id="bg-music" loop>
+      <!-- Masukkan file musik di assets/ dan ubah src berikut -->
+      <source id="bg-src" src="assets/music.mp3" type="audio/mpeg">
+      Browser Anda tidak mendukung elemen audio.
+    </audio>
+    <div class="music-controls">
+      <button id="play-music" class="btn ghost" aria-pressed="false">Putar Musik</button>
+    </div>
+
+  </main>
+
+  <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+  <script src="js/main.js"></script>
 </body>
-
 </html>
