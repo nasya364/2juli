@@ -1,350 +1,167 @@
-// ===========================
-// ELEMENT
-// ===========================
-
-const envelope = document.getElementById("envelope");
-
-const intro = document.getElementById("intro");
-
-const popup = document.getElementById("popup");
-
-const closeBtn = document.getElementById("closeBtn");
-
-const loveBtn = document.getElementById("loveBtn");
-
-const runBtn = document.getElementById("runBtn");
-
-const finalPage = document.getElementById("final");
-
-
-// ===========================
-// BUKA AMPLOP
-// ===========================
-
-envelope.addEventListener("click",()=>{
-
-
-    if(envelope.classList.contains("open")) return;
-
-
-    envelope.classList.add("open");
-
-
-    setTimeout(()=>{
-
-
-        intro.classList.add("hidden");
-
-
-        popup.classList.remove("hidden");
-
-        popup.classList.add("show");
-
-
-    },2300);
-
-
-
-});
-
-
-
-// ===========================
-// CLOSE POPUP
-// ===========================
-
-
-closeBtn.addEventListener("click",()=>{
-
-
-    popup.classList.remove("show");
-
-    popup.classList.add("hidden");
-
-
-    intro.classList.remove("hidden");
-
-
-    envelope.classList.remove("open");
-
-
-});
-
-
-
-
-// ===========================
-// TOMBOL MALU KABUR
-// ===========================
-
-
-runBtn.addEventListener("mouseenter",()=>{
-
-
-    const area = runBtn.parentElement;
-
-
-    const x = Math.random() * 
-    (area.clientWidth - runBtn.offsetWidth);
-
-
-    const y = Math.random() *
-    (area.clientHeight - runBtn.offsetHeight);
-
-
-
-    runBtn.style.position="absolute";
-
-
-    runBtn.style.left=x+"px";
-
-
-    runBtn.style.top=y+"px";
-
-});
-
-
-
-
-// ===========================
-// PELUK VIRTUAL
-// ===========================
-
-
-loveBtn.addEventListener("click",()=>{
-
-
-    popup.classList.add("hidden");
-
-
-    startConfetti();
-
-
-
-    setTimeout(()=>{
-
-
-        finalPage.classList.remove("hidden");
-
-        finalPage.classList.add("show");
-
-
-    },600);
-
-
-
-});
-
-
-
-
-// ===========================
-// HEART ANIMATION
-// ===========================
-
-
-function createHeart(){
-
-
-    const heart=document.createElement("div");
-
-
-    heart.className="floating-heart";
-
-
-    heart.innerHTML="❤️";
-
-
-    heart.style.left=Math.random()*100+"vw";
-
-
-    heart.style.fontSize=
-    (15+Math.random()*30)+"px";
-
-
-    heart.style.animationDuration=
-    (3+Math.random()*4)+"s";
-
-
-
-    document.body.appendChild(heart);
-
-
-
-    setTimeout(()=>{
-
-
-        heart.remove();
-
-
-    },7000);
-
-
-
-}
-
-
-
-setInterval(createHeart,500);
-
-
-
-
-
-// ===========================
-// CONFETTI
-// ===========================
-
-
-const canvas=document.getElementById("confetti");
-
-
-const ctx=canvas.getContext("2d");
-
-
-
-function resizeCanvas(){
-
-
-    canvas.width=window.innerWidth;
-
-    canvas.height=window.innerHeight;
-
-
-}
-
-
-
-resizeCanvas();
-
-
-
-window.addEventListener(
-"resize",
-resizeCanvas
-);
-
-
-
-let confetti=[];
-
-
-
-function random(min,max){
-
-
-    return Math.random()*(max-min)+min;
-
-
-}
-
-
-
-
-function startConfetti(){
-
-
-
-    confetti=[];
-
-
-
-    for(let i=0;i<200;i++){
-
-
-
-        confetti.push({
-
-
-            x:random(0,canvas.width),
-
-            y:random(-canvas.height,0),
-
-
-            size:random(5,10),
-
-
-            speed:random(2,6),
-
-
-            color:
-            `hsl(${Math.random()*360},90%,60%)`
-
-
-        });
-
-
-
+// Main interactions: countdown, envelope open, confetti, play music
+(() => {
+  // Tanggal lahir Ayah: 2 Juli 1978
+  const birthDate = new Date(1978, 6, 2); // month 6 = Juli (0-indexed)
+  const birthdayMonth = 6; // July (0-indexed)
+  const birthdayDay = 2;
+
+  // Countdown targets next occurrence of July 2
+  function nextBirthdayDate() {
+    const now = new Date();
+    let year = now.getFullYear();
+    const thisYearBirthday = new Date(year, birthdayMonth, birthdayDay, 0, 0, 0);
+    if (thisYearBirthday <= now) year += 1;
+    return new Date(year, birthdayMonth, birthdayDay, 0, 0, 0);
+  }
+
+  function computeAge() {
+    const now = new Date();
+    let age = now.getFullYear() - birthDate.getFullYear();
+    const hasHadBirthdayThisYear = (now.getMonth() > birthDate.getMonth()) ||
+      (now.getMonth() === birthDate.getMonth() && now.getDate() >= birthDate.getDate());
+    if (!hasHadBirthdayThisYear) age -= 1;
+    return age;
+  }
+
+  // Countdown update
+  const daysEl = document.getElementById('days');
+  const hoursEl = document.getElementById('hours');
+  const minsEl = document.getElementById('minutes');
+  const secsEl = document.getElementById('seconds');
+  const ageText = document.getElementById('age-text');
+
+  function updateCountdown() {
+    const target = nextBirthdayDate();
+    const now = new Date();
+    const diff = Math.max(0, target - now);
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    daysEl.textContent = days;
+    hoursEl.textContent = String(hours).padStart(2, '0');
+    minsEl.textContent = String(minutes).padStart(2, '0');
+    secsEl.textContent = String(seconds).padStart(2, '0');
+
+    const age = computeAge();
+    ageText.textContent = `Ulang tahun: 2 Juli 1978 — Usia: ${age + (days === 0 && hours === 0 && minutes === 0 && seconds === 0 ? 1 : 0)} tahun`;
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // Envelope open and interactions
+  const envelope = document.getElementById('envelope');
+  const openBtn = document.getElementById('open-btn');
+  const letterText = document.getElementById('letter-text');
+  const playMusicBtn = document.getElementById('play-music');
+  const bgMusic = document.getElementById('bg-music');
+
+  // Confetti canvas
+  const confettiCanvas = document.getElementById('confetti-canvas');
+  const ctx = confettiCanvas.getContext && confettiCanvas.getContext('2d');
+  let confettiParticles = [];
+  let confettiAnimId = null;
+
+  function resizeCanvas() {
+    confettiCanvas.width = window.innerWidth;
+    confettiCanvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  function createConfetti() {
+    confettiParticles = [];
+    const count = 120;
+    for (let i = 0; i < count; i++) {
+      confettiParticles.push({
+        x: Math.random() * confettiCanvas.width,
+        y: Math.random() * -confettiCanvas.height,
+        r: Math.random() * 8 + 4,
+        d: Math.random() * 40 + 10,
+        color: ['#FFD166','#FF61A6','#9BF6FF','#C1FFD7'][Math.floor(Math.random() * 4)],
+        tilt: Math.random() * 10 - 10,
+        tiltAngle: 0,
+        tiltSpeed: Math.random() * 0.1 + 0.05,
+        speedY: Math.random() * 3 + 2,
+        speedX: Math.random() * 4 - 2
+      });
     }
+  }
 
+  function drawConfetti() {
+    if (!ctx) return;
+    ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+    for (let i = 0; i < confettiParticles.length; i++) {
+      const p = confettiParticles[i];
+      p.tiltAngle += p.tiltSpeed;
+      p.y += p.speedY;
+      p.x += p.speedX + Math.sin(p.tiltAngle) * 0.5;
+      p.tilt = Math.sin(p.tiltAngle) * 15;
 
+      ctx.beginPath();
+      ctx.fillStyle = p.color;
+      ctx.fillRect(p.x + p.tilt, p.y, p.r, p.r / 2);
+      ctx.closePath();
 
-    animateConfetti();
+      if (p.y > confettiCanvas.height + 20) {
+        p.y = Math.random() * -confettiCanvas.height;
+        p.x = Math.random() * confettiCanvas.width;
+      }
+    }
+    confettiAnimId = requestAnimationFrame(drawConfetti);
+  }
 
+  function startConfetti(duration = 4000) {
+    if (!ctx) return;
+    createConfetti();
+    drawConfetti();
+    setTimeout(stopConfetti, duration);
+  }
 
+  function stopConfetti() {
+    if (confettiAnimId) cancelAnimationFrame(confettiAnimId);
+    confettiAnimId = null;
+    if (ctx) ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+  }
 
-}
+  // Play/pause music with button; note browser autoplay restrictions require user gesture
+  function toggleMusic() {
+    if (!bgMusic) return;
+    if (bgMusic.paused) {
+      bgMusic.play().catch(()=>{ /* ignore play errors */ });
+      playMusicBtn.textContent = 'Pause Musik';
+      playMusicBtn.setAttribute('aria-pressed', 'true');
+    } else {
+      bgMusic.pause();
+      playMusicBtn.textContent = 'Putar Musik';
+      playMusicBtn.setAttribute('aria-pressed', 'false');
+    }
+  }
 
+  playMusicBtn.addEventListener('click', () => {
+    toggleMusic();
+  });
 
+  // Envelope open handler
+  let opened = false;
+  openBtn.addEventListener('click', () => {
+    if (opened) return;
+    opened = true;
+    envelope.classList.add('open');
+    // Default letter content (editable in HTML)
+    letterText.innerHTML = `Ayah Indra yang tercinta,<br><br>
+      Selamat ulang tahun! Semoga tahun ini membawa lebih banyak tawa, kesehatan, dan kebahagiaan. Terima kasih untuk segala cinta dan pengorbanan. Kami sangat menyayangimu.<br><br>
+      Dengan cinta, keluargamu.`;
+    // Play confetti and play music (user already clicked open = user gesture)
+    startConfetti(6000);
+    // Try to play music if available
+    if (bgMusic) {
+      bgMusic.play().catch(()=>{/* may fail if no user gesture */});
+      playMusicBtn.textContent = 'Pause Musik';
+      playMusicBtn.setAttribute('aria-pressed', 'true');
+    }
+  });
 
-
-
-function animateConfetti(){
-
-
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-
-
-    confetti.forEach(c=>{
-
-
-        ctx.fillStyle=c.color;
-
-
-        ctx.fillRect(
-            c.x,
-            c.y,
-            c.size,
-            c.size
-        );
-
-
-
-        c.y+=c.speed;
-
-
-        c.x+=Math.sin(c.y/30);
-
-
-
-        if(c.y>canvas.height){
-
-
-            c.y=-20;
-
-
-            c.x=random(
-                0,
-                canvas.width
-            );
-
-
-        }
-
-
-
-    });
-
-
-
-    requestAnimationFrame(
-        animateConfetti
-    );
-
-}
+})();
