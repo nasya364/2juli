@@ -33,12 +33,6 @@ body{
     margin-top:8px;
 }
 
-.letter{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:35px;
-}
 .heart{
     font-size:30px;
 }
@@ -81,12 +75,12 @@ body{
 /* ================= ENVELOPE ================= */
 
 .envelope{
-    width:340px;
-    height:230px;
     position:relative;
+    width:360px;
+    height:240px;
     cursor:pointer;
-    perspective:1000px;
     transition:.4s;
+    overflow:visible;
 }
 
 .envelope:hover{
@@ -95,56 +89,82 @@ body{
 
 .envelope-back{
     position:absolute;
-    width:100%;
-    height:100%;
+    inset:0;
     background:#e58e8e;
-    border-radius:10px;
+    border-radius:12px;
+    overflow:hidden;
     box-shadow:0 20px 40px rgba(0,0,0,.2);
 }
 
+/* Tutup amplop */
 .flap{
     position:absolute;
+    top:0;
+    left:0;
     width:100%;
-    height:120px;
-    background:#f3b4b4;
+    height:125px;
+    background:#f4b4b4;
     clip-path:polygon(0 0,100% 0,50% 100%);
     transform-origin:top;
     transition:1s;
-    z-index:1;
+    z-index:5;
 }
 
+/* Surat */
 .letter{
     position:absolute;
-    left:10%;
-    top:12%;
-    width:80%;
-    height:72%;
+
+    width:82%;
+    height:170px;
+
+    left:50%;
+    bottom:-140px;
+
+    transform:translateX(-50%);
+
     background:white;
-    border-radius:12px;
-    padding:20px;
-    text-align:center;
+    border-radius:10px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:50px;
+
+    box-shadow:0 10px 20px rgba(0,0,0,.15);
+
     transition:1s;
     z-index:2;
-    box-shadow:0 10px 25px rgba(0,0,0,.15);
 }
 
-.letter h1{
-    font-size:20px;
-    margin:10px 0;
+/* Tulisan */
+.envelope-text{
+    position:absolute;
+    width:100%;
+    bottom:35px;
+    left:0;
+    text-align:center;
+    z-index:3;
 }
 
-.letter p{
-    color:#666;
+.envelope-text h1{
+    font-size:22px;
+    font-weight:700;
 }
+
+.envelope-text p{
+    margin-top:8px;
+}
+
+/* Saat dibuka */
 
 .open .flap{
     transform:rotateX(180deg);
 }
 
 .open .letter{
-    transform:translateY(-180px);
+    transform:translate(-50%,-170px);
 }
-
 /* ================= POPUP ================= */
 
 .popup{
