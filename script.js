@@ -3,206 +3,348 @@
 // ===========================
 
 const envelope = document.getElementById("envelope");
+
 const intro = document.getElementById("intro");
 
 const popup = document.getElementById("popup");
+
 const closeBtn = document.getElementById("closeBtn");
 
 const loveBtn = document.getElementById("loveBtn");
+
 const runBtn = document.getElementById("runBtn");
 
 const finalPage = document.getElementById("final");
+
 
 // ===========================
 // BUKA AMPLOP
 // ===========================
 
-envelope.addEventListener("click", () => {
+envelope.addEventListener("click",()=>{
+
 
     if(envelope.classList.contains("open")) return;
 
+
     envelope.classList.add("open");
 
-    setTimeout(() => {
 
-        intro.classList.add("hide");
+    setTimeout(()=>{
+
+
+        intro.classList.add("hidden");
+
 
         popup.classList.remove("hidden");
+
         popup.classList.add("show");
 
-    },2200);
+
+    },2300);
+
+
 
 });
+
+
 
 // ===========================
 // CLOSE POPUP
 // ===========================
 
+
 closeBtn.addEventListener("click",()=>{
 
+
     popup.classList.remove("show");
+
     popup.classList.add("hidden");
 
-    intro.classList.remove("hide");
+
+    intro.classList.remove("hidden");
+
 
     envelope.classList.remove("open");
 
+
 });
 
+
+
+
 // ===========================
-// TOMBOL MALU
+// TOMBOL MALU KABUR
 // ===========================
+
 
 runBtn.addEventListener("mouseenter",()=>{
 
-    const parent = runBtn.parentElement;
 
-    const maxX = parent.clientWidth-runBtn.offsetWidth;
-    const maxY = parent.clientHeight-runBtn.offsetHeight;
+    const area = runBtn.parentElement;
+
+
+    const x = Math.random() * 
+    (area.clientWidth - runBtn.offsetWidth);
+
+
+    const y = Math.random() *
+    (area.clientHeight - runBtn.offsetHeight);
+
+
 
     runBtn.style.position="absolute";
-    runBtn.style.left=Math.random()*maxX+"px";
-    runBtn.style.top=Math.random()*maxY+"px";
+
+
+    runBtn.style.left=x+"px";
+
+
+    runBtn.style.top=y+"px";
 
 });
 
+
+
+
 // ===========================
-// LOVE BUTTON
+// PELUK VIRTUAL
 // ===========================
+
 
 loveBtn.addEventListener("click",()=>{
 
-    popup.classList.remove("show");
+
     popup.classList.add("hidden");
+
 
     startConfetti();
 
+
+
     setTimeout(()=>{
 
+
         finalPage.classList.remove("hidden");
+
         finalPage.classList.add("show");
+
 
     },600);
 
+
+
 });
 
+
+
+
 // ===========================
-// FLOATING HEART
+// HEART ANIMATION
 // ===========================
+
 
 function createHeart(){
 
+
     const heart=document.createElement("div");
+
 
     heart.className="floating-heart";
 
+
     heart.innerHTML="❤️";
+
 
     heart.style.left=Math.random()*100+"vw";
 
-    heart.style.fontSize=(18+Math.random()*20)+"px";
 
-    heart.style.animationDuration=(4+Math.random()*3)+"s";
+    heart.style.fontSize=
+    (15+Math.random()*30)+"px";
+
+
+    heart.style.animationDuration=
+    (3+Math.random()*4)+"s";
+
+
 
     document.body.appendChild(heart);
 
+
+
     setTimeout(()=>{
+
 
         heart.remove();
 
+
     },7000);
+
+
 
 }
 
+
+
 setInterval(createHeart,500);
+
+
+
+
 
 // ===========================
 // CONFETTI
 // ===========================
 
+
 const canvas=document.getElementById("confetti");
+
+
 const ctx=canvas.getContext("2d");
 
-function resize(){
+
+
+function resizeCanvas(){
+
 
     canvas.width=window.innerWidth;
+
     canvas.height=window.innerHeight;
+
 
 }
 
-resize();
 
-window.addEventListener("resize",resize);
 
-let confettis=[];
+resizeCanvas();
+
+
+
+window.addEventListener(
+"resize",
+resizeCanvas
+);
+
+
+
+let confetti=[];
+
+
 
 function random(min,max){
 
+
     return Math.random()*(max-min)+min;
+
 
 }
 
+
+
+
 function startConfetti(){
 
-    confettis=[];
 
-    for(let i=0;i<220;i++){
 
-        confettis.push({
+    confetti=[];
+
+
+
+    for(let i=0;i<200;i++){
+
+
+
+        confetti.push({
+
 
             x:random(0,canvas.width),
 
             y:random(-canvas.height,0),
 
+
             size:random(5,10),
+
 
             speed:random(2,6),
 
-            angle:random(0,360),
 
-            color:`hsl(${Math.random()*360},90%,65%)`
+            color:
+            `hsl(${Math.random()*360},90%,60%)`
+
 
         });
 
+
+
     }
+
+
 
     animateConfetti();
 
+
+
 }
+
+
+
+
 
 function animateConfetti(){
 
-    ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    confettis.forEach(c=>{
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
 
-        ctx.save();
 
-        ctx.translate(c.x,c.y);
 
-        ctx.rotate(c.angle);
+    confetti.forEach(c=>{
+
 
         ctx.fillStyle=c.color;
 
-        ctx.fillRect(0,0,c.size,c.size);
 
-        ctx.restore();
+        ctx.fillRect(
+            c.x,
+            c.y,
+            c.size,
+            c.size
+        );
+
+
 
         c.y+=c.speed;
 
+
         c.x+=Math.sin(c.y/30);
 
-        c.angle+=0.05;
+
 
         if(c.y>canvas.height){
 
+
             c.y=-20;
-            c.x=random(0,canvas.width);
+
+
+            c.x=random(
+                0,
+                canvas.width
+            );
+
 
         }
 
+
+
     });
 
-    requestAnimationFrame(animateConfetti);
+
+
+    requestAnimationFrame(
+        animateConfetti
+    );
 
 }
