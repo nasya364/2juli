@@ -69,8 +69,8 @@ body{
 /* ================= INTRO ================= */
 
 #intro{
-    width:100%;
-    height:100vh;
+    position:fixed;
+    inset:0;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -84,9 +84,8 @@ body{
     height:240px;
     cursor:pointer;
     transition:.4s;
-    overflow:visible;
+    overflow:hidden;
 }
-
 .envelope:hover{
     transform:scale(1.05);
 }
@@ -100,16 +99,20 @@ body{
     box-shadow:0 20px 40px rgba(0,0,0,.2);
 }
 .envelope-front{
-
     position:absolute;
-
     left:0;
     bottom:0;
-
     width:100%;
-    height:130px;
-
+    height:140px;
     background:#e58e8e;
+
+    clip-path:polygon(
+        0 0,
+        50% 55%,
+        100% 0,
+        100% 100%,
+        0 100%
+    );
 
     z-index:3;
 }
@@ -129,29 +132,19 @@ body{
 
 /* Surat */
 .letter{
-
     position:absolute;
-
     left:50%;
-    top:110px;
-
+    bottom:20px;
     transform:translateX(-50%);
-
     width:82%;
     height:170px;
-
     background:white;
-
     border-radius:10px;
-
     display:flex;
     justify-content:center;
     align-items:center;
-
     font-size:45px;
-
-    z-index:1;
-
+    z-index:2;
     transition:1s;
 }
 /* Tulisan */
