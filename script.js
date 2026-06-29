@@ -1,24 +1,25 @@
-// ============================
+// ===========================
 // ELEMENT
-// ============================
-const envelope = document.getElementById("envelope");
+// ===========================
 
-console.log(envelope);
+const envelope = document.getElementById("envelope");
+const intro = document.getElementById("intro");
 
 const popup = document.getElementById("popup");
-const intro = document.getElementById("intro");
-const finalPage = document.getElementById("final");
+const closeBtn = document.getElementById("closeBtn");
 
 const loveBtn = document.getElementById("loveBtn");
 const runBtn = document.getElementById("runBtn");
-const closeBtn = document.getElementById("closeBtn");
-console.log("JS jalan");
 
-// ============================
-// BUKA SURAT
-// ============================
+const finalPage = document.getElementById("final");
+
+// ===========================
+// BUKA AMPLOP
+// ===========================
 
 envelope.addEventListener("click", () => {
+
+    if(envelope.classList.contains("open")) return;
 
     envelope.classList.add("open");
 
@@ -29,138 +30,137 @@ envelope.addEventListener("click", () => {
         popup.classList.remove("hidden");
         popup.classList.add("show");
 
-    }, 1300);
+    },2200);
 
 });
 
-// ============================
-// TOMBOL MALU (KABUR)
-// ============================
+// ===========================
+// CLOSE POPUP
+// ===========================
 
-runBtn.addEventListener("mouseover", () => {
+closeBtn.addEventListener("click",()=>{
+
+    popup.classList.remove("show");
+    popup.classList.add("hidden");
+
+    intro.classList.remove("hide");
+
+    envelope.classList.remove("open");
+
+});
+
+// ===========================
+// TOMBOL MALU
+// ===========================
+
+runBtn.addEventListener("mouseenter",()=>{
 
     const parent = runBtn.parentElement;
 
-    const maxX = parent.clientWidth - runBtn.offsetWidth;
-    const maxY = parent.clientHeight + 120;
+    const maxX = parent.clientWidth-runBtn.offsetWidth;
+    const maxY = parent.clientHeight-runBtn.offsetHeight;
 
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
-
-    runBtn.style.position = "absolute";
-    runBtn.style.left = x + "px";
-    runBtn.style.top = y + "px";
+    runBtn.style.position="absolute";
+    runBtn.style.left=Math.random()*maxX+"px";
+    runBtn.style.top=Math.random()*maxY+"px";
 
 });
 
-// ============================
-// PELUK VIRTUAL
-// ============================
+// ===========================
+// LOVE BUTTON
+// ===========================
 
-loveBtn.addEventListener("click", () => {
+loveBtn.addEventListener("click",()=>{
 
-    popup.classList.add("hide");
+    popup.classList.remove("show");
+    popup.classList.add("hidden");
 
     startConfetti();
 
-    setTimeout(() => {
-
-        popup.style.display = "none";
+    setTimeout(()=>{
 
         finalPage.classList.remove("hidden");
         finalPage.classList.add("show");
 
-    }, 600);
+    },600);
 
 });
 
-// ============================
-// CLOSE BUTTON
-// ============================
+// ===========================
+// FLOATING HEART
+// ===========================
 
-closeBtn.addEventListener("click", () => {
+function createHeart(){
 
-    popup.classList.add("hide");
+    const heart=document.createElement("div");
 
-    setTimeout(() => {
+    heart.className="floating-heart";
 
-        popup.classList.add("hidden");
+    heart.innerHTML="❤️";
 
-        intro.classList.remove("hide");
+    heart.style.left=Math.random()*100+"vw";
 
-        envelope.classList.remove("open");
+    heart.style.fontSize=(18+Math.random()*20)+"px";
 
-    }, 400);
-
-});
-
-// ============================
-// HEARTS
-// ============================
-
-function createHeart() {
-
-    const heart = document.createElement("div");
-
-    heart.classList.add("floating-heart");
-
-    heart.innerHTML = "❤️";
-
-    heart.style.left = Math.random() * 100 + "vw";
-
-    heart.style.fontSize = (15 + Math.random() * 25) + "px";
-
-    heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+    heart.style.animationDuration=(4+Math.random()*3)+"s";
 
     document.body.appendChild(heart);
 
-    setTimeout(() => {
+    setTimeout(()=>{
 
         heart.remove();
 
-    }, 6000);
+    },7000);
 
 }
 
-setInterval(createHeart, 500);
+setInterval(createHeart,500);
 
-// ============================
+// ===========================
 // CONFETTI
-// ============================
+// ===========================
 
-const canvas = document.getElementById("confetti");
-const ctx = canvas.getContext("2d");
+const canvas=document.getElementById("confetti");
+const ctx=canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+function resize(){
 
-let confettis = [];
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
 
-function random(min, max) {
-    return Math.random() * (max - min) + min;
 }
 
-function startConfetti() {
+resize();
 
-    confettis = [];
+window.addEventListener("resize",resize);
 
-    for (let i = 0; i < 180; i++) {
+let confettis=[];
+
+function random(min,max){
+
+    return Math.random()*(max-min)+min;
+
+}
+
+function startConfetti(){
+
+    confettis=[];
+
+    for(let i=0;i<220;i++){
 
         confettis.push({
 
-            x: random(0, canvas.width),
-            y: random(-canvas.height, 0),
+            x:random(0,canvas.width),
 
-            r: random(4, 10),
+            y:random(-canvas.height,0),
 
-            d: random(2, 7),
+            size:random(5,10),
 
-            color:
-                `hsl(${Math.random()*360},90%,65%)`,
+            speed:random(2,6),
 
-            tilt: random(-10, 10),
+            angle:random(0,360),
 
-            speed: random(2, 5)
+            color:`hsl(${Math.random()*360},90%,65%)`
 
         });
 
@@ -170,27 +170,34 @@ function startConfetti() {
 
 }
 
-function animateConfetti() {
+function animateConfetti(){
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    confettis.forEach(c => {
+    confettis.forEach(c=>{
 
-        ctx.beginPath();
+        ctx.save();
 
-        ctx.fillStyle = c.color;
+        ctx.translate(c.x,c.y);
 
-        ctx.fillRect(c.x, c.y, c.r, c.r);
+        ctx.rotate(c.angle);
 
-        c.y += c.speed;
+        ctx.fillStyle=c.color;
 
-        c.x += Math.sin(c.y / 30);
+        ctx.fillRect(0,0,c.size,c.size);
 
-        if (c.y > canvas.height) {
+        ctx.restore();
 
-            c.y = -20;
+        c.y+=c.speed;
 
-            c.x = random(0, canvas.width);
+        c.x+=Math.sin(c.y/30);
+
+        c.angle+=0.05;
+
+        if(c.y>canvas.height){
+
+            c.y=-20;
+            c.x=random(0,canvas.width);
 
         }
 
@@ -199,14 +206,3 @@ function animateConfetti() {
     requestAnimationFrame(animateConfetti);
 
 }
-
-// ============================
-// RESIZE
-// ============================
-
-window.addEventListener("resize", () => {
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-});
