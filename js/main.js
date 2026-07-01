@@ -168,82 +168,41 @@ document.addEventListener('DOMContentLoaded', () => {
   function showFlapBeforeClose(){ if (!flapEl) return; flapEl.style.display=''; void flapEl.offsetWidth; }
 
   let opened=false;
-  function setOpen(state){ const opening = Boolean(state); if (!opening) showFlapBeforeClose(); opened = opening; if (envelope) envelope.classList.toggle('open', opened); if (envelope) envelope.setAttribute('aria-expanded', String(opened)); if (letter) letter.style.display = opened ? 'block' : 'none'; }
-
-  if (envelope){ envelope.style.position = envelope.style.position || 'relative'; envelope.style.zIndex = envelope.style.zIndex || '9999'; envelope.addEventListener('click', ()=> setOpen(!opened)); }
-  if (openBtn) openBtn.addEventListener('click', ()=> setOpen(!opened));
-
-  // === Start: replace family/dad placeholders to use single combined image ===
-  (function applyCombinedPlaceholders(){
-    const combinedPath = 'assets/combined.jpg'; // path must match uploaded file
-
-    // helper for <img> elements
-    function replaceImg(imgEl, pos){
-      try {
-        if (imgEl.hasAttribute('srcset')) imgEl.removeAttribute('srcset');
-        if (imgEl.hasAttribute('sizes')) imgEl.removeAttribute('sizes');
-
-        imgEl.src = combinedPath;
-        // ensure it crops nicely using inline styles so no extra CSS required
-        imgEl.style.objectFit = 'cover';
-        imgEl.style.objectPosition = pos;
-        imgEl.style.width = '100%';
-        imgEl.style.height = '100%';
-        imgEl.style.display = 'block';
-      } catch (e) {
-        console.warn('replaceImg failed', e);
-      }
+  function setOpen(state){
+    const opening = Boolean(state);
+    if (!opening) showFlapBeforeClose();
+    opened = opening;
+    if (envelope) envelope.classList.toggle('open', opened);
+    // update aria and button label to a single toggling button
+    if (envelope) envelope.setAttribute('aria-expanded', String(opened));
+    if (openBtn){
+      openBtn.setAttribute('aria-expanded', String(opened));
+      openBtn.textContent = opened ? 'Tutup Surat' : 'Buka amplop';
+    }
+    if (letter){
+      // keep letter visibility consistent with existing animation states
+      letter.style.display = opened ? 'block' : 'none';
     }
 
-    // helper fallback: set background-image on parent/box
-    function setBackgroundOnBox(boxEl, pos){
-      try {
-        boxEl.style.backgroundImage = `url("${combinedPath}")`;
-        boxEl.style.backgroundSize = 'cover';
-        boxEl.style.backgroundRepeat = 'no-repeat';
-        boxEl.style.backgroundPosition = pos;
-      } catch (e) {
-        console.warn('setBackgroundOnBox failed', e);
+    // When opening, ensure the letter content is filled and celebratory effects run
+    if (opened){
+      if (letterText && (!letterText.innerHTML || letterText.innerHTML.trim() === '')){
+        letterText.innerHTML = defaultMessage;
+        letterText.style.overflowY = 'auto';
+        letterText.style.maxHeight = '58vh';
+        letterText.style.paddingRight = '12px';
       }
+      // animate confetti and try to play music (user gesture)
+      startConfetti(5000);
+      setMusic(true).catch(()=>{});
+    } else {
+      // closing: stop confetti but do not force-stop music
+      stopConfetti();
     }
+  }
 
-    // Find img placeholders by filename in their src (case-insensitive)
-    const imgs = Array.from(document.querySelectorAll('img'));
-    imgs.forEach(img => {
-      const s = (img.getAttribute('src') || '').toLowerCase();
-      if (s.includes('family-1') || s.includes('family1') || s.includes('family')) {
-        // show left side of combined image
-        replaceImg(img, 'left center');
-      } else if (s.includes('dad.png') || s.includes('dad') || s.includes('father') || s.includes('pak') ) {
-        // show right side of combined image
-        replaceImg(img, 'right center');
-      }
-    });
-
-    // If placeholders are background-image divs, try to find them
-    const divs = Array.from(document.querySelectorAll('div'));
-    divs.forEach(d => {
-      const bg = (window.getComputedStyle(d).backgroundImage || '').toLowerCase();
-      if (bg.includes('family-1') || bg.includes('family1') || bg.includes('family')) {
-        setBackgroundOnBox(d, 'left center');
-      } else if (bg.includes('dad') || bg.includes('father') ) {
-        setBackgroundOnBox(d, 'right center');
-      }
-    });
-
-    // Fallback: try common IDs/classes if still not found
-    const maybeFamily = document.getElementById('family-box') || document.getElementById('family-1') || document.querySelector('.family-box') || document.querySelector('#family');
-    if (maybeFamily) {
-      if (maybeFamily.tagName && maybeFamily.tagName.toLowerCase() === 'img') replaceImg(maybeFamily, 'left center');
-      else setBackgroundOnBox(maybeFamily, 'left center');
-    }
-    const maybeDad = document.getElementById('dad') || document.getElementById('father-box') || document.querySelector('.dad-box') || document.querySelector('#father');
-    if (maybeDad) {
-      if (maybeDad.tagName && maybeDad.tagName.toLowerCase() === 'img') replaceImg(maybeDad, 'right center');
-      else setBackgroundOnBox(maybeDad, 'right center');
-    }
-  })();
-  // === End: combined placeholders ===
+  if (envelope){ envelope.style.position = envelope.style.position || 'relative'; envelope.style.zIndex = envelope.style.zIndex || '9999'; envelope.addEventListener('click', (e)=> setOpen(!opened)); }
+  if (openBtn) openBtn.addEventListener('click', (e)=> setOpen(!opened));
 
   console.log('main init complete');
 });
