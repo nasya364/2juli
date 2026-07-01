@@ -1,4 +1,4 @@
-// js/main.js — tune celebration: more hearts and longer confetti; play a celebratory sound on celebrate
+// js/main.js — enhance confetti and hearts effect when letter opens
 console.log('main.js loaded');
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -119,18 +119,18 @@ document.addEventListener('DOMContentLoaded', () => {
   let particles = [], animId = null;
   function resizeCanvas(){ if (canvas){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; } }
   window.addEventListener('resize', resizeCanvas); resizeCanvas();
-  function makeConfetti(n=120){ if (!canvas || !ctx) return; particles=[]; const colors=['#FFD166','#FF61A6','#9BF6FF','#C1FFD7','#FF9F43']; for (let i=0;i<n;i++){ particles.push({ x: Math.random()*canvas.width, y: Math.random()*-canvas.height, size: 8+Math.random()*8, speedY: 2+Math.random()*6, speedX: -3+Math.random()*6, tilt: Math.random()*0.5, tiltSpeed: 0.05+Math.random()*0.15, tiltAngle: Math.random()*Math.PI*2, color: colors[Math.floor(Math.random()*colors.length)] }); } }
+  function makeConfetti(n=250){ if (!canvas || !ctx) return; particles=[]; const colors=['#FFD166','#FF61A6','#9BF6FF','#C1FFD7','#FF9F43']; for (let i=0;i<n;i++){ particles.push({ x: Math.random()*canvas.width, y: Math.random()*-canvas.height, size: 8+Math.random()*8, speedY: 2+Math.random()*6, speedX: -3+Math.random()*6, tilt: Math.random()*0.5, tiltSpeed: 0.05+Math.random()*0.15, tiltAngle: Math.random()*Math.PI*2, color: colors[Math.floor(Math.random()*colors.length)] }); } }
   function drawConfetti(){ if (!ctx) return; ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{ p.tiltAngle += p.tiltSpeed; p.y += p.speedY; p.x += p.speedX + Math.sin(p.tiltAngle)*2; ctx.fillStyle = p.color; ctx.fillRect(p.x, p.y, p.size, p.size*0.6); }); if (particles.length && !animId) animId = requestAnimationFrame(drawConfetti); }
-  function startConfetti(ms=4500){ if (!ctx) return; makeConfetti(180); drawConfetti(); setTimeout(()=>{ stopConfetti(); }, ms); }
+  function startConfetti(ms=5000){ if (!ctx) return; makeConfetti(250); drawConfetti(); setTimeout(()=>{ stopConfetti(); }, ms); }
   function stopConfetti(){ if (animId) cancelAnimationFrame(animId); animId=null; if (ctx) ctx.clearRect(0,0,canvas.width,canvas.height); }
 
   // Hearts animation (DOM elements)
-  function startHearts(n=40){ const containerId = 'hearts-container'; let container = document.getElementById(containerId); if (!container){ container = document.createElement('div'); container.id = containerId; container.style.position='fixed'; container.style.left='0'; container.style.top='0'; container.style.width='100%'; container.style.height='100%'; container.style.pointerEvents='none'; container.style.zIndex='9998'; document.body.appendChild(container); } for(let i=0;i<n;i++){ const el = document.createElement('div'); el.textContent = '❤'; el.style.position='absolute'; el.style.left = (10 + Math.random()*80)+'%'; el.style.top = (20 + Math.random()*60)+'%'; el.style.fontSize = (12 + Math.random()*36)+'px'; el.style.opacity = Math.random(); el.style.transition = 'transform 3s linear, opacity 3s linear'; container.appendChild(el); setTimeout(()=>{ el.style.transform = 'translateY(-200px) scale(1.6)'; el.style.opacity = 0; }, 50); setTimeout(()=>{ try{ container.removeChild(el); }catch(e){} }, 3300); } }
+  function startHearts(n=60){ const containerId = 'hearts-container'; let container = document.getElementById(containerId); if (!container){ container = document.createElement('div'); container.id = containerId; container.style.position='fixed'; container.style.left='0'; container.style.top='0'; container.style.width='100%'; container.style.height='100%'; container.style.pointerEvents='none'; container.style.zIndex='9998'; document.body.appendChild(container); } for(let i=0;i<n;i++){ const el = document.createElement('div'); el.textContent = '❤'; el.style.position='absolute'; el.style.left = (10 + Math.random()*80)+'%'; el.style.top = (20 + Math.random()*60)+'%'; el.style.fontSize = (12 + Math.random()*36)+'px'; el.style.opacity = Math.random(); el.style.transition = 'transform 3s linear, opacity 3s linear'; container.appendChild(el); setTimeout(()=>{ el.style.transform = 'translateY(-200px) scale(1.6)'; el.style.opacity = 0; }, 50); setTimeout(()=>{ try{ container.removeChild(el); }catch(e){} }, 3300); } }
   
   function celebrate(){
     // start confetti and hearts
-    startConfetti(8000);
-    startHearts(60);
+    startConfetti(7000);
+    startHearts(80);
     // try to play music (if user already interacted)
     if (bgMusic){
       bgMusic.play().catch(()=>{});
@@ -192,8 +192,10 @@ document.addEventListener('DOMContentLoaded', () => {
         letterText.style.maxHeight = '58vh';
         letterText.style.paddingRight = '12px';
       }
+      // Enhanced confetti & hearts effect when opening letter
+      startConfetti(6000);
+      startHearts(80);
       // animate confetti and try to play music (user gesture)
-      startConfetti(5000);
       setMusic(true).catch(()=>{});
     } else {
       // closing: stop confetti but do not force-stop music
