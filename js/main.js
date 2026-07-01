@@ -1,4 +1,4 @@
-// js/main.js — enhance confetti and hearts effect when letter opens
+// js/main.js — add loud celebratory sound when countdown reaches zero
 console.log('main.js loaded');
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -26,15 +26,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const audioStatus = document.getElementById('audio-status');
   const forcePlayBtn = document.getElementById('force-play');
 
-  // celebratory sound element (new) — short, hosted sound that reliably plays
-  let celebrateSound = document.getElementById('celebrate-sound');
-  if (!celebrateSound){
-    celebrateSound = document.createElement('audio');
-    celebrateSound.id = 'celebrate-sound';
-    celebrateSound.preload = 'auto';
-    celebrateSound.src = 'https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg';
-    celebrateSound.style.display = 'none';
-    document.body.appendChild(celebrateSound);
+  // Create loud celebratory sound that plays when timer reaches zero
+  let celebratorySound = document.getElementById('celebratory-sound');
+  if (!celebratorySound){
+    celebratorySound = document.createElement('audio');
+    celebratorySound.id = 'celebratory-sound';
+    celebratorySound.preload = 'auto';
+    // Use a loud celebratory horn/whistle sound from reliable source
+    celebratorySound.src = 'https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3';
+    celebratorySound.volume = 0.9; // set to 0.9 for louder playback
+    celebratorySound.style.display = 'none';
+    document.body.appendChild(celebratorySound);
   }
 
   // Ensure audio element configured
@@ -44,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     bgMusic.volume = bgMusic.volume || 1.0;
   }
 
-  console.log('elements', { envelope: !!envelope, bgMusic: !!bgMusic, celebrateSound: !!celebrateSound });
+  console.log('elements', { envelope: !!envelope, bgMusic: !!bgMusic, celebratorySound: !!celebratorySound });
 
   function nextBirthdayDate() {
     const now = new Date();
@@ -128,6 +130,18 @@ document.addEventListener('DOMContentLoaded', () => {
   function startHearts(n=60){ const containerId = 'hearts-container'; let container = document.getElementById(containerId); if (!container){ container = document.createElement('div'); container.id = containerId; container.style.position='fixed'; container.style.left='0'; container.style.top='0'; container.style.width='100%'; container.style.height='100%'; container.style.pointerEvents='none'; container.style.zIndex='9998'; document.body.appendChild(container); } for(let i=0;i<n;i++){ const el = document.createElement('div'); el.textContent = '❤'; el.style.position='absolute'; el.style.left = (10 + Math.random()*80)+'%'; el.style.top = (20 + Math.random()*60)+'%'; el.style.fontSize = (12 + Math.random()*36)+'px'; el.style.opacity = Math.random(); el.style.transition = 'transform 3s linear, opacity 3s linear'; container.appendChild(el); setTimeout(()=>{ el.style.transform = 'translateY(-200px) scale(1.6)'; el.style.opacity = 0; }, 50); setTimeout(()=>{ try{ container.removeChild(el); }catch(e){} }, 3300); } }
   
   function celebrate(){
+    // Play loud celebratory sound (when timer reaches zero)
+    try {
+      if (celebratorySound){
+        celebratorySound.currentTime = 0;
+        celebratorySound.play().catch((err)=>{
+          console.warn('Celebratory sound playback failed:', err);
+        });
+      }
+    } catch (err){
+      console.warn('celebrate sound error:', err);
+    }
+
     // start confetti and hearts
     startConfetti(7000);
     startHearts(80);
